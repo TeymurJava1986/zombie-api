@@ -27,7 +27,7 @@ export class TournamentController {
                     }
                 ));
                 await this.playersService.assignPlayers(referencesArray);
-                await this.tournamentService.startTournaments();
+                await this.tournamentService.startTournaments(false, referenceName);
             }
         };
         try {

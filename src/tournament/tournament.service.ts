@@ -3,6 +3,8 @@ import Player from './dao/player.model';
 import { PlayersService } from './players.service';
 import { JudgementService } from './judgement.service';
 import { HttpService } from '../shared-services/http/http.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TournamentRepository, ITournamentRepository } from './tournament.repository';
 
 export enum TournamentEntities {
     collection = 'tournaments',
@@ -37,6 +39,7 @@ export class TournamentService {
             private readonly playerService: PlayersService,
             private readonly httpService: HttpService,
             private readonly judgmentService: JudgementService,
+            @InjectRepository(TournamentRepository) private readonly tournamentRepo: ITournamentRepository,
         ) {}
 
         private _tournament: Map<number, Player> = new Map();
@@ -44,13 +47,13 @@ export class TournamentService {
         private _tournamentLevel: number = 0;
         private Logger = new Logger('TournamentService');
 
-        public startTournaments = async (ifAssigned?: boolean): Promise<void> => {
+        public startTournaments = async (ifAssigned?: boolean, tName?: string): Promise<void> => {
 
             if (!this.playerService.players.length) {
                 const isWinner = this.playerService.transportWinnersToPlayers();
                 if (isWinner) {
                     this.logPlayer(isWinner, null, `Winner `);
-                    return await this.saveTournamentHistory();
+                    return this.tournamentRepo.saveTournament(this._tournamentHistory, tName);
                 }
             }
 
@@ -200,60 +203,6 @@ export class TournamentService {
 
         private logPlayer = (p1?: Player, p2?: Player, prefix?: string, suffix?: string): void => {
             this.Logger.log(`${prefix || ''} Players: ${p1 && p1.toString()} ${p2 && p2.toString()} ${suffix || ''}`);
-        }
-
-        private getCollection = async (): Promise<any> => {
-            // return await MongoHelper.client.db(process.env.DB_NAME).collection(TournamentEntities.collection);
-        }
-
-        private saveTournamentHistory = async (): Promise<void> => {
-            // const collection = await this.getCollection();
-            const insert = this._tournamentHistory.map((arr: Array<Map<number, Player>>, level: number) => {
-                const levelIndex = level;
-
-                const data = arr.reduce((accumulator: Map<string, any>, currentValue: Map<number, Player>, action: number) => {
-                    const iter = currentValue.values();
-                    const fp: Player = iter.next().value;
-                    const sp: Player = iter.next().value;
-                    const actionIndex = action;
-                    const tournament = `${TournamentEntities.tournament}${levelIndex}`;
-                    const currentDataArr = accumulator.get(tournament) || [];
-                    const newAction = {
-                        [`${TournamentEntities.turn}${actionIndex}`]: {
-                            [`${TournamentEntities.player}${fp.id}`]: {
-                                name: fp.name,
-                                shoot: fp.shoot,
-                                reload: fp.reload,
-                                block: fp.block,
-                                lives: fp.lives,
-                                game: fp.gameStatus,
-                                action: fp.lastAction,
-                            },
-                            [`${TournamentEntities.player}${sp.id}`]: {
-                                name: sp.name,
-                                shoot: sp.shoot,
-                                reload: sp.reload,
-                                block: sp.block,
-                                lives: sp.lives,
-                                game: sp.gameStatus,
-                                action: sp.lastAction,
-                            },
-                        },
-                    };
-                    currentDataArr.push(newAction);
-                    accumulator.set(tournament, currentDataArr);
-
-                    return accumulator;
-                }, new Map());
-
-                return data;
-            });
-            // await collection.insertOne({ ...insert });
-            this.playerService.resetWinners();
-            this.playerService.resetWaitingPlayer();
-            this.playerService.resetPlayers();
-            this.Logger.log(`======== History logged in to DB. ========`);
-            return;
         }
 
         private recallAction = async (p: Player, o: Player): Promise<string | null> => {
