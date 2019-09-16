@@ -16,7 +16,7 @@ export interface Turn {
 }
 
 @Entity({
-    name: 'Tournament',
+    name: 'tournament',
 })
 export class Tournament extends BaseEntity {
 

@@ -22,7 +22,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     host: 'localhost',
     port: 27017,
     database: 'standoff',
-    entities: [`${__dirname}/../**/*.entity.ts`],
+    entities: [`${__dirname}/../**/*.entity.ts`, `${__dirname}/../**/*.entity.js`],
     synchronize: true,
     useNewUrlParser: true,
     username: '',
