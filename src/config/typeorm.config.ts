@@ -4,7 +4,7 @@ const SOURCE_PATH = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
     type: 'postgres',
-    host: 'localhost',
+    host: 'aa1vulzuotfzlm5.cperj4ab0qvz.us-east-2.rds.amazonaws.com',
     port: 5432,
     database: 'standoff',
     entities: [`${__dirname}/../**/*.entity.{js,ts}`],
