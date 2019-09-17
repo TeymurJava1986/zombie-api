@@ -4,15 +4,13 @@ const SOURCE_PATH = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
     type: 'postgres',
-    host: process.env.DB_HOST,
+    host: 'localhost',
     port: 5432,
-    database: process.env.DB_NAME,
-    url: process.env.DB_URL,
+    database: 'standoff',
     entities: [`${__dirname}/../**/*.entity.{js,ts}`],
     synchronize: true,
-    username: 'teymurjava',
-    password: 'Pa$$w0rd_1986',
-    ssl: process.env.DB_USE_SSL === 'true',
+    username: 'postgres',
+    password: 'postgres',
 };
 
 // export const typeOrmConfig: TypeOrmModuleOptions = {
