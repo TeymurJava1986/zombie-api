@@ -6,7 +6,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     type: dbConfig.type,
     host: process.env.RDS_HOSTNAME || dbConfig.host,
     port: process.env.RDS_PORT || dbConfig.port,
-    database: process.env.RDS_DATABASE || dbConfig.database,
+    database: process.env.RDS_DATABASE,
     entities: [`${__dirname}/../**/*.entity.{js,ts}`],
     synchronize: process.env.TYPEORM_SYNC || dbConfig.synchronize,
     username: process.env.RDS_USERNAME || dbConfig.username,
