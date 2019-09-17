@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, ObjectID, ObjectIdColumn, Column, Index } from 'typeorm';
+import { BaseEntity, Entity, Column, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 export interface PlayerResult {
     name: string;
@@ -20,11 +20,11 @@ export interface Turn {
 })
 export class Tournament extends BaseEntity {
 
-    @ObjectIdColumn({
-        name: '_id',
-        type: 'string',
+    @PrimaryGeneratedColumn({
+        type: 'int',
+        name: 'id',
     })
-    public _id: ObjectID;
+    public id: number;
 
     @Column({
         name: 'tournamentName',
