@@ -1,3 +1,5 @@
+server:
+  origin: http://zombie-sapiens.us-east-2.elasticbeanstalk.com
 db:
   host: 'localhost'
   username: 'postgres'
