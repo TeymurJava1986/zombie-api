@@ -1,28 +1,14 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
-const SOURCE_PATH = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
+import * as config from 'config';
+const dbConfig = config.get('db');
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-    type: 'postgres',
-    host: 'aa1vulzuotfzlm5.cperj4ab0qvz.us-east-2.rds.amazonaws.com',
-    port: 5432,
-    database: 'standoff',
+    type: dbConfig.type,
+    host: process.env.RDS_HOSTNAME || dbConfig.host,
+    port: process.env.RDS_PORT || dbConfig.port,
+    database: process.env.RDS_DATABASE || dbConfig.database,
     entities: [`${__dirname}/../**/*.entity.{js,ts}`],
-    synchronize: true,
-    username: 'postgres',
-    password: 'postgres',
+    synchronize: process.env.TYPEORM_SYNC || dbConfig.synchronize,
+    username: process.env.RDS_USERNAME || dbConfig.username,
+    password: process.env.RDS_PASSWORD || dbConfig.password,
 };
-
-// export const typeOrmConfig: TypeOrmModuleOptions = {
-//     type: 'mongodb',
-//     host: 'localhost',
-//     port: 27017,
-//     database: 'standoff',
-//     entities: [`${__dirname}/../**/*.entity.ts`, `${__dirname}/../**/*.entity.js`],
-//     synchronize: true,
-//     useNewUrlParser: true,
-//     username: '',
-//     password: '',
-//     useUnifiedTopology: true,
-//     ssl: false,
-// };
