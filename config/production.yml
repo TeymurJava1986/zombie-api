@@ -1,7 +1,7 @@
 server:
   origin: http://SapiensZombieGame-env.piivgb2nv7.us-east-2.elasticbeanstalk.com
 db:
-  host: 'http://aas5jpy13d4lbx.cperj4ab0qvz.us-east-2.rds.amazonaws.com'
+  host: 'localhost'
   username: 'postgres'
   password: 'postgres'
   synchronize: true
