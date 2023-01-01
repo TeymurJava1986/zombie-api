@@ -33,7 +33,7 @@
     "@types/supertest": "2.0.7",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.10.0",
-    "config": "^3.2.2",
+    "config": "^3.3.8",
     "dotenv": "^8.1.0",
     "dotenv-display": "^1.0.1",
     "mongodb": "^3.3.2",
@@ -44,7 +44,7 @@
     "superagent": "^5.1.0",
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
-    "tsconfig-paths": "3.8.0",
+    "tsconfig-paths": "3.10.1",
     "tslint": "5.16.0",
     "typeorm": "^0.2.19",
     "typescript": "3.4.3"
@@ -61,7 +61,7 @@
     "ts-jest": "24.0.2",
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
-    "tsconfig-paths": "3.8.0",
+    "tsconfig-paths": "3.10.1",
     "tslint": "5.16.0",
     "typescript": "3.4.3"
   },
